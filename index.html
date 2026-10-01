@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Web Component: &lt;uni-chatroom /> - a web component based on uniopen design language</title>
+<meta name="uni-chatroom is an encapsulated Web Component built upon the foundation of the uniopen design language. It leverages the native Popover API to present an isolated, embedded iframe environment, empowering developers to deploy custom interactive chat workflows directly within their application viewports without compromising host-level styling. Implementation is straightforward: simply declare the component and trigger its presentation through native button invokers or programmatic controls, while mapping your embedded content through the designated chat slot. The component seamlessly orchestrates top-layer elevation, fluid open-and-close transitions, and header controls—delivering an immersive, polished messaging interface that aligns harmoniously with uniopen visual guidelines and modern web standards." />
+<script type="module" src="mjs/wc-uni-chatroom.js"></script>
+<link rel="stylesheet" href="https://blog.lalacube.com/mei/css/wc-base.css">
+<link rel="stylesheet" href="https://blog.lalacube.com/mei/css/layers/defaults.css">
+<link rel="stylesheet" href="https://blog.lalacube.com/mei/css/layers/buttons.css">
+<style>
+#hd,#ft{display:none;}
+body{position:relative;inline-size:100vw;block-size:100vh;margin:0;}
+
+.wrap {
+  inline-size: 100%;
+  max-inline-size: min(800px, calc(100% - 2em));
+  box-sizing: border-box;
+}
+
+.demo-wrap {
+  --accent-color: var(--dory);
+  --background-color: rgba(220 226 240);
+
+  @media (prefers-color-scheme: dark) {
+    --accent-color: 75 168 248;
+    --background-color: rgba(29 34 40);
+  }
+
+  position: relative;
+  inline-size: 100%;
+  margin: 12em auto;
+  padding-inline: 1.5em;
+  box-sizing: border-box;
+
+  .button__wrap {
+    position: relative;
+    inline-size: 100%;
+    aspect-ratio: 16/9;
+    background-color: var(--background-color);
+
+    border-radius: 1em;
+    display: grid;
+    place-content: center;
+
+    .buttons {
+      &[data-type='secondary1'] {
+        --default-text-color: rgba(var(--accent-color));
+      }
+
+      display: flex;
+      gap: .5em;
+
+      span::before {
+        content: var(--button-text);
+      }
+
+      em {
+        font-size: 0;
+        inline-size: 24px;
+        aspect-ratio: 1 / 1;
+        display: block;
+        background-color: rgba(var(--accent-color));
+        overflow: hidden;
+
+        mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSIjZThlYWVkIj48cGF0aCBkPSJtMTc2LTEyMC01Ni01NiAzMDEtMzAyLTE4MS00NSAxOTgtMTIzLTE3LTIzNCAxNzkgMTUxIDIxNi04OC04NyAyMTcgMTUxIDE3OC0yMzQtMTYtMTI0IDE5OC00NS0xODEtMzAxIDMwMVptMjQtNTIwLTgwLTgwIDgwLTgwIDgwIDgwLTgwIDgwWm0zNTUgMTk3IDQ4LTc5IDkzIDctNjAtNzEgMzUtODYtODYgMzUtNzEtNTkgNyA5Mi03OSA0OSA5MCAyMiAyMyA5MFptMTY1IDMyMy04MC04MCA4MC04MCA4MCA4MC04MCA4MFpNNTY5LTU3MFoiLz48L3N2Zz4=);
+        mask-size1: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
+      }
+    }
+
+  }
+}
+
+uni-chatroom {
+  --uni-chatroom-subject: '敲敲話';
+  --uni-chatroom-safe-padding: 16px;
+  --uni-chatroom-window-inline-size: 640px;
+  --uni-chatroom-window-block-size: 500px;
+  --uni-chatroom-border-radius: 28px 28px 0 0;
+  --uni-chatroom-head-padding-inline: 20px 10px;
+  --uni-chatroom-transition-duration: .35s;
+  --uni-chatroom-inset: auto var(--uni-chatroom-safe-padding) 0 auto;
+
+  --uni-chatroom-inset1: 0;
+  --uni-chatroom-border-radius1: 28px;
+
+  @media screen and (max-width: 767px) {
+    --uni-chatroom-transition-duration: .55s;
+  }
+
+  &:not(:defined) {
+    display: none;
+  }
+}
+</style>
+</head>
+
+<body class="flex-center">
+<div class="wrap">
+  <div class="demo-wrap">
+    <div class="button__wrap">
+      <button type="button" class="buttons" data-type="secondary1" data-size="large" role="button">
+        <em>image</em>
+        <span>Summon</span>
+      </div>
+    </div>
+  </div>
+
+  <uni-chatroom popover="manual">
+    <iframe
+      slot="chat"
+      src="https://chat.iopenmall.tw/#/"
+      sandbox="allow-scripts allow-same-origin allow-presentation"
+    ></iframe>
+  </uni-chatroom>
+</div>
+
+<script type="module">
+customElements.whenDefined('uni-chatroom').then(() => {
+  const button = document.querySelector('.buttons');
+  const buttonText = button.querySelector('span');
+  const uniChatroom = document.querySelector('uni-chatroom');
+  const uniChatroomClass = customElements.get('uni-chatroom');
+  const { supportedEvents } = uniChatroomClass;
+
+  const handler = (evt) => {
+    const { type, target } = evt;
+
+    switch (type) {
+      case 'click': {
+        uniChatroom.togglePopover();
+        break;
+      }
+
+      case 'uni-chatroom-toggle': {
+        const { newState, oldState } = evt.detail || {};
+
+        buttonText.textContent = uniChatroom.open ? 'Dismiss' : 'Summon';
+
+        console.log(
+          `%cuni-chatroom%c > %cuni-chatroom-toggle%c > ${newState}.`,
+          'font-size:12px;line-height:1.3;background:#3a99d8;color:#fff;border-radius:3px;padding:0 4px;',
+          'font-size:12px;line-height:1.3;',
+          'font-size:12px;line-height:1.3;color:#a4f6b7;',
+          'font-size:12px;line-height:1.3;'
+        );
+        break
+      }
+
+      case 'uni-chatroom-beforetoggle': {
+        console.log(
+          `%cuni-chatroom%c > %cuni-chatroom-beforetoggle%c occured.`,
+          'font-size:12px;line-height:1.3;background:#3a99d8;color:#fff;border-radius:3px;padding:0 4px;',
+          'font-size:12px;line-height:1.3;',
+          'font-size:12px;line-height:1.3;color:#a4f6b7;',
+          'font-size:12px;line-height:1.3;'
+        );
+        break
+      }
+    }
+  };
+
+
+  // events
+  button.addEventListener('click', handler);
+  supportedEvents.forEach(
+    (event) => {
+      uniChatroom.addEventListener(event, handler);
+    }
+  );
+});
+</script>
+</body>
+
+</html>
