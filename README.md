@@ -17,7 +17,7 @@ Implementation is straightforward: simply declare the component and trigger its 
   ```html
   <script
     type="module"
-    src="https://unpkg.com/uni-chatroom/mjs/wc-uni-chatroom.js">        
+    src="https://unpkg.com/@meistudioli/uni-chatroom/mjs/wc-uni-chatroom.js">        
   </script>
   ```
 
@@ -41,7 +41,7 @@ Implementation is straightforward: simply declare the component and trigger its 
 
 ```html
 <script type="module">
-import { UniChatroom } from 'https://unpkg.com/uni-chatroom/mjs/wc-uni-chatroom.js';
+import { UniChatroom } from 'https://unpkg.com/@meistudioli/uni-chatroom/mjs/wc-uni-chatroom.js';
 
 const iframeTemplate = document.querySelector('.iframe-chatroom');
 
