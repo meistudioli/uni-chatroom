@@ -28,6 +28,7 @@ ${_wccss}
   --win-inline-size: var(--uni-chatroom-window-inline-size, 640px);
   --win-max-inline-size: calc(100dvi - var(--safe-padding) * 2);
   --win-block-size: var(--uni-chatroom-window-block-size, 500px);
+  --win-max-block-size: calc(100dvb - var(--safe-padding) * 2);
   --main-block-size: calc(var(--win-block-size) - var(--head-block-size));
   --main-max-block-size: calc(100dvb - var(--head-block-size) - var(--safe-padding) * 2);
   --position-area: var(--uni-chatroom-position-area, top span-left);
@@ -54,12 +55,17 @@ ${_wccss}
 
   .chatroom {
     &:popover-open {
-      /*
-      inline-size: fit-content;
-      block-size: fit-content;
-      */
       inline-size: var(--win-inline-size);
       block-size: var(--win-block-size);
+      max-inline-size: var(--win-max-inline-size);
+      max-block-size: var(--win-max-block-size);
+
+      @supports (interpolate-size: allow-keywords) {
+        inline-size: fit-content;
+        block-size: fit-content;
+        max-inline-size: revert;
+        max-block-size: revert;
+      }
 
       opacity: 1;
 

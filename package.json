@@ -1,6 +1,6 @@
 {
   "name": "@meistudioli/uni-chatroom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "<uni-chatroom /> is an encapsulated Web Component built upon the foundation of the uniopen design language. It leverages the native Popover API to present an isolated, embedded iframe environment, empowering developers to deploy custom interactive chat workflows directly within their application viewports without compromising host-level styling. Implementation is straightforward: simply declare the component and trigger its presentation through native button invokers or programmatic controls, while mapping your embedded content through the designated chat slot. The component seamlessly orchestrates top-layer elevation, fluid open-and-close transitions, and header controls—delivering an immersive, polished messaging interface that aligns harmoniously with uniopen visual guidelines and modern web standards.",
   "keywords": [
     "web"
